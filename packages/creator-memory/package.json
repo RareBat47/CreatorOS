@@ -1,6 +1,7 @@
 {
   "name": "@creatoros/creator-memory",
   "version": "0.1.0",
+  "type": "module",
   "description": "Creator Memory System: Stable, Episodic, and Performance memory stores and retrieval",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

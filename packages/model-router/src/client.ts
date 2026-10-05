@@ -7,6 +7,7 @@ import type {
   ChatMessage,
 } from "./types.js";
 
+export const DEV_ANTIGRAVITY_DEFAULT_KEY = "agw-local-WsQ3RTRvPQ77ezqeEXhjWzoHyi-zRIVJ1voAJut5VeI";
 export const DEV_ANTIGRAVITY_DEFAULT_URL = "http://127.0.0.1:8999/v1";
 export const PROD_DASHSCOPE_DEFAULT_URL = "https://api.xkiro.com/v1";
 
@@ -40,7 +41,7 @@ export class ModelClient {
     if (config.apiKey !== undefined) {
       this.apiKey = config.apiKey;
     } else if (this.environment === "dev") {
-      this.apiKey = process.env.ANTIGRAVITY_API_KEY || "antigravity-local";
+      this.apiKey = process.env.ANTIGRAVITY_API_KEY || DEV_ANTIGRAVITY_DEFAULT_KEY;
     } else {
       this.apiKey =
         process.env.XKIRO_API_KEY ||

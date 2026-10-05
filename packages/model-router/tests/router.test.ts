@@ -113,13 +113,19 @@ describe("ModelRouter", () => {
   });
 
   it("maps primary models according to Section 5 & 6 recommendations", () => {
-    const router = new ModelRouter();
+    const router = new ModelRouter({ clientConfig: { environment: "prod" } });
     expect(router.getModelForTask("strategy")).toBe("qwen/qwen3.8-max:free");
     expect(router.getModelForTask("brainstorm")).toBe("qwen/qwen3.7-flash:free");
     expect(router.getModelForTask("scriptwriting")).toBe("qwen/qwen3.7-plus:free");
     expect(router.getModelForTask("multimodal")).toBe("qwen/qwen3-vl-plus:free");
     expect(router.getModelForTask("critique")).toBe("qwen/qwen3.6-max-preview:free");
     expect(router.getModelForTask("validation")).toBe("qwen/qwen3.6-27b:free");
+  });
+
+  it("maps primary models to local Gemini in dev environment", () => {
+    const router = new ModelRouter({ clientConfig: { environment: "dev" } });
+    expect(router.getModelForTask("strategy")).toBe("gemini-3.8-flash-high");
+    expect(router.getModelForTask("brainstorm")).toBe("gemini-3.8-flash-high");
   });
 
   it("allows custom overrides for task models and temperatures", () => {
@@ -172,7 +178,7 @@ describe("ModelRouter", () => {
       };
     });
 
-    const client = new ModelClient({ fetch: mockFetch as unknown as typeof fetch });
+    const client = new ModelClient({ fetch: mockFetch as unknown as typeof fetch, environment: "prod" });
     const router = new ModelRouter({}, client);
 
     const result = await router.executeTaskJson<{ recovered: boolean; model: string }>(
@@ -264,39 +270,43 @@ describe("ModelCouncil Architecture", () => {
       estimatedDurationSeconds: 16,
     };
 
-    const mockFetch = vi.fn().mockResolvedValue({
-      ok: true,
-      json: async (): Promise<ChatCompletionResponse> => ({
-        id: "critique-test",
-        model: "qwen3.6-max-preview",
-        choices: [
-          {
-            message: {
-              role: "assistant",
-              content: JSON.stringify({
-                scores: {
-                  retentionPrediction: 80,
-                  brandConsistencyScore: 85,
-                  clarityScore: 90,
-                  productionFeasibilityScore: 95,
-                  compositeScore: 88,
-                },
-                strengths: ["Fast start"],
-                weaknesses: [],
-                recommendations: [],
-                forbiddenWordsFound: [],
-                brandRuleViolations: [],
-                approved: true,
-                critiqueSummary: "Good script",
-              }),
+    const mockFetch = vi.fn().mockImplementation(async (_url, options) => {
+      const body = JSON.parse(options.body as string) as ChatCompletionRequest;
+      return {
+        ok: true,
+        json: async (): Promise<ChatCompletionResponse> => ({
+          id: "critique-test",
+          model: body.model || "qwen/qwen3.6-max-preview:free",
+          choices: [
+            {
+              message: {
+                role: "assistant",
+                content: JSON.stringify({
+                  scores: {
+                    retentionPrediction: 80,
+                    brandConsistencyScore: 85,
+                    clarityScore: 90,
+                    productionFeasibilityScore: 95,
+                    compositeScore: 88,
+                  },
+                  strengths: ["Fast start"],
+                  weaknesses: [],
+                  recommendations: [],
+                  forbiddenWordsFound: [],
+                  brandRuleViolations: [],
+                  approved: true,
+                  critiqueSummary: "Good script",
+                }),
+              },
             },
-          },
-        ],
-      }),
+          ],
+        }),
+      };
     });
 
-    const client = new ModelClient({ fetch: mockFetch as unknown as typeof fetch });
-    const council = new ModelCouncil(new ModelRouter({}, client));
+    const client = new ModelClient({ fetch: mockFetch as unknown as typeof fetch, environment: "prod" });
+    const router = new ModelRouter({}, client);
+    const council = new ModelCouncil(router);
 
     const critique = await council.critiqueScript(mockNarrative, {
       topic: "Automating Remotion",
@@ -533,7 +543,7 @@ describe("ModelCouncil Architecture", () => {
     });
 
     const client = new ModelClient({
-      environment: "dev",
+      environment: "prod",
       fetch: mockFetch as unknown as typeof fetch,
     });
     const router = new ModelRouter({}, client);
@@ -565,7 +575,7 @@ describe("ModelCouncil Architecture", () => {
     expect(result.validation.hasCta).toBe(true);
 
     // Check Metadata
-    expect(result.metadata.environment).toBe("dev");
+    expect(result.metadata.environment).toBe("prod");
     expect(result.metadata.modelsUsed.brainstorm).toBe("qwen/qwen3.7-flash:free");
     expect(result.metadata.modelsUsed.critique).toBe("qwen/qwen3.6-max-preview:free");
   });

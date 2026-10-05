@@ -83,6 +83,51 @@ export const DEFAULT_ROUTING_TABLE: TaskRoutingTable = {
   },
 };
 
+export const DEV_DEFAULT_ROUTING_TABLE: TaskRoutingTable = {
+  strategy: {
+    primaryModel: "gemini-3.8-flash-high",
+    fallbackModels: ["gemini-3.7-flash-medium", "gemini-3.6-flash-medium", "gemini-3.1-pro-low"],
+    defaultTemperature: 0.7,
+    systemPromptRole:
+      "You are the chief content strategist for a professional creator. Analyze the creator profile, audience, past content, and business goals. Develop a specific content strategy that is differentiated, measurable, and realistic for the creator's production capacity. Avoid generic advice.",
+  },
+  brainstorm: {
+    primaryModel: "gemini-3.8-flash-high",
+    fallbackModels: ["gemini-3.7-flash-medium", "gemini-3.6-flash-medium"],
+    defaultTemperature: 0.85,
+    systemPromptRole:
+      "You are an elite short-form content brainstorming engine specialized in high-converting hooks, audience psychology, angles, and viral mechanics. Generate creative, varied, and arresting options.",
+  },
+  scriptwriting: {
+    primaryModel: "gemini-3.8-flash-high",
+    fallbackModels: ["gemini-3.7-flash-medium", "gemini-3.1-pro-low"],
+    defaultTemperature: 0.7,
+    systemPromptRole:
+      "You are an expert short-form video scriptwriter and editor. You craft punchy, natural, conversational narratives with airtight pacing, emotional resonance, and high-retention transitions.",
+  },
+  multimodal: {
+    primaryModel: "gemini-3.8-flash-high",
+    fallbackModels: ["gemini-3.7-flash-medium", "gemini-3.6-flash-medium"],
+    defaultTemperature: 0.3,
+    systemPromptRole:
+      "You are a multimodal video and visual aesthetic analyst reviewing visual composition, framing, pacing, captions, and creator style.",
+  },
+  critique: {
+    primaryModel: "gemini-3.8-flash-high",
+    fallbackModels: ["gemini-3.1-pro-low", "gemini-3.7-flash-medium"],
+    defaultTemperature: 0.2,
+    systemPromptRole:
+      "You are a rigorous content quality reviewer and brand integrity critic. Evaluate retention curve, clarity, originality, voice consistency, forbidden phrase compliance, and brand fit.",
+  },
+  validation: {
+    primaryModel: "gemini-3.8-flash-high",
+    fallbackModels: ["gemini-3.7-flash-medium", "gemini-3.6-flash-medium"],
+    defaultTemperature: 0.1,
+    systemPromptRole:
+      "You are an exacting structured data validator and scene timing engineer. Ensure schema completeness, frame budgets, CTA presence, and strict JSON compliance.",
+  },
+};
+
 export class ModelRouter {
   public readonly client: ModelClient;
   private readonly routingTable: TaskRoutingTable;
@@ -90,8 +135,11 @@ export class ModelRouter {
   constructor(config: ModelRouterConfig = {}, client?: ModelClient) {
     this.client = client ?? new ModelClient(config.clientConfig);
 
-    // Initialize routing table with defaults + overrides
-    this.routingTable = { ...DEFAULT_ROUTING_TABLE };
+    // Initialize routing table with defaults based on environment
+    const isDev = this.client.getEnvironment() === "dev";
+    this.routingTable = isDev
+      ? { ...DEV_DEFAULT_ROUTING_TABLE }
+      : { ...DEFAULT_ROUTING_TABLE };
 
     if (config.customRouting) {
       for (const [taskKey, customConfig] of Object.entries(config.customRouting) as Array<[RoutingTask, Partial<TaskRoutingConfig>]>) {
