@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/scene-schema"
+    },
+    {
+      "path": "./packages/creator-memory"
+    },
+    {
+      "path": "./packages/model-router"
+    }
+  ]
+}
