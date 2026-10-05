@@ -1,0 +1,41 @@
+You are an expert full-stack TypeScript and Remotion developer.
+Your task is to implement `apps/renderer` in this monorepo (`D:/REMOTION_OS`).
+
+Context & Requirements:
+1. Look at existing packages:
+   - `packages/scene-schema`: Contains `SceneSpec`, `LayoutSchema`, `CaptionTokenSchema`, `VisualLayerSchema`, etc.
+   - We need `apps/renderer` to import and depend on `@creatoros/scene-schema: "workspace:*"`.
+2. Dependencies to install in `apps/renderer/package.json`:
+   - "remotion": "4.0.533" (or compatible ^4.0.0)
+   - "@remotion/renderer": "4.0.533"
+   - "@remotion/cli": "4.0.533"
+   - "@remotion/captions": "4.0.533" (or native word timing caption components)
+   - "react": "^19.0.0" or "^18.3.1" (check root react version or align with remotion requirements)
+   - "react-dom": "^19.0.0" or "^18.3.1"
+   - "@creatoros/scene-schema": "workspace:*"
+   - "zod": "^3.24.2"
+3. What to build in `apps/renderer`:
+   - `src/index.ts`: Remotion root registering compositions (`registerRoot(RemotionRoot)`).
+   - `src/Root.tsx`: Declares the compositions:
+     * `TalkingHeadComposition`: 1080x1920, 30fps, default 30s (900 frames).
+     * `ThreeTipsComposition`: 1080x1920, 30fps.
+     * `StoryArcComposition`: 1080x1920, 30fps.
+   - `src/compositions/TalkingHead/`:
+     * Background layer (gradient / subtle texture / pattern interrupts).
+     * Talking head video container with subtle scale / dynamic zoom / camera cutaways.
+     * Kinetic captions component: word-by-word active highlighting with customizable colors (karaoke / highlight styles), safe-area margin for vertical platforms (TikTok/Reels UI safety).
+     * Progress bar at the top or bottom.
+     * Brand intro/outro card and animated CTA card.
+   - `src/compositions/ThreeTips/`:
+     * Numbered tip cards with kinetic typography and animated transitions.
+   - `src/compositions/StoryArc/`:
+     * Problem -> Mistake -> Realization -> Lesson -> CTA arc structure with scene pacing.
+   - `src/components/`: Reusable video components (Captions, ProgressBar, BrandHeader, CTACard).
+   - `src/render-cli.ts` (or `scripts/render.ts`): A CLI script using `@remotion/renderer` (`renderMedia` / `selectComposition`) to render an input `SceneSpec` JSON file to an MP4 output.
+   - Include sample fixtures (`fixtures/sample-scene.json`) that pass validation against `@creatoros/scene-schema`.
+   - Setup `pnpm --filter @creatoros/renderer dev` (or `pnpm dev`) to launch Remotion Studio (`remotion preview src/index.ts`).
+   - Setup `pnpm --filter @creatoros/renderer build` and `render` scripts.
+4. Run `pnpm install` at monorepo root to link workspace dependencies and install Remotion.
+5. Verify:
+   - TypeScript compilation passes (`pnpm --filter @creatoros/renderer typecheck` or `tsc --noEmit`).
+   - The compositions can be bundled or verified by Remotion CLI or typecheck.

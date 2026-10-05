@@ -1,0 +1,22 @@
+You are an expert TypeScript developer.
+Fix all TypeScript typecheck errors in `apps/renderer` so that `pnpm --filter @creatoros/renderer typecheck` exits with code 0.
+
+Current type errors:
+1. `src/components/DynamicZoom.tsx`:
+   - TS2532: Object is possibly 'undefined' on sortedKeyframes[0] etc. Check for undefined or use safe access.
+2. `src/compositions/StoryArc/StoryArcComposition.tsx`:
+   - TS6133: 'title' is declared but its value is never read. Prefix with `_` or remove.
+   - TS6133: 'fps' is declared but its value is never read. Prefix with `_` or remove.
+3. `src/compositions/TalkingHead/TalkingHeadComposition.tsx`:
+   - TS6133: 'width', 'height', 'accentColor' unused. Prefix with `_` or remove.
+4. `src/compositions/ThreeTips/ThreeTipsComposition.tsx`:
+   - TS6133: 'accentColor', 'fps', 'secondaryColor', 'idx' unused. Prefix with `_` or remove.
+5. `src/Root.tsx`:
+   - TS2322: Missing properties in defaultProps for brand: `backgroundColor: '#0a0a0c'`, `surfaceColor: '#16161a'`, `textColor: '#ffffff'`, `borderRadiusPx: 16`, `introDurationInFrames: 45`, `outroDurationInFrames: 60`.
+6. `src/types/index.ts`:
+   - TS6133: 'SceneSpecSchema' unused. Re-export it (`export { SceneSpecSchema } from '@creatoros/scene-schema'`) or remove the unused import.
+
+Additionally:
+- Ensure `src/render-cli.ts` exists and can render a `SceneSpec` JSON file via `@remotion/renderer`.
+- Ensure `fixtures/sample-scene.json` exists with valid SceneSpec data.
+- Run `pnpm --filter @creatoros/renderer typecheck` to confirm 0 errors.

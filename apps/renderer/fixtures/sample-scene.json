@@ -1,0 +1,144 @@
+{
+  "sceneId": "scene-sample-01",
+  "layout": "talking-head",
+  "durationInFrames": 300,
+  "fps": 30,
+  "format": "short_vertical",
+  "width": 1080,
+  "height": 1920,
+  "projectId": "proj-sample-viral-01",
+  "metadata": {
+    "title": "Stop Making Boring Videos in 2026",
+    "caption": "The exact blueprint top creators use to 10x retention.",
+    "hashtags": ["#creator", "#contentcreation", "#videoediting", "#remotion"],
+    "cta": "Follow for daily creator growth blueprints",
+    "contentPillar": "Retention Engineering"
+  },
+  "hook": {
+    "text": "Stop making boring videos in 2026. Here is the exact blueprint.",
+    "category": "curiosity",
+    "type": "curiosity",
+    "startFrame": 0,
+    "durationInFrames": 90,
+    "visualEmphasis": "high-contrast-neon"
+  },
+  "visualLayers": [
+    {
+      "id": "layer-talking-head",
+      "type": "talking_head",
+      "src": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "startFrame": 0,
+      "durationInFrames": 300,
+      "zIndex": 1,
+      "animation": {
+        "entrance": "fade-in",
+        "emphasis": "subtle-zoom"
+      }
+    }
+  ],
+  "captions": [
+    {
+      "id": "cap-1",
+      "text": "Stop",
+      "startFrame": 10,
+      "endFrame": 25,
+      "highlight": false
+    },
+    {
+      "id": "cap-2",
+      "text": "making",
+      "startFrame": 26,
+      "endFrame": 40,
+      "highlight": false
+    },
+    {
+      "id": "cap-3",
+      "text": "boring",
+      "startFrame": 41,
+      "endFrame": 65,
+      "highlight": true
+    },
+    {
+      "id": "cap-4",
+      "text": "videos",
+      "startFrame": 66,
+      "endFrame": 90,
+      "highlight": false
+    },
+    {
+      "id": "cap-5",
+      "text": "in",
+      "startFrame": 91,
+      "endFrame": 105,
+      "highlight": false
+    },
+    {
+      "id": "cap-6",
+      "text": "2026.",
+      "startFrame": 106,
+      "endFrame": 135,
+      "highlight": true
+    },
+    {
+      "id": "cap-7",
+      "text": "Here",
+      "startFrame": 140,
+      "endFrame": 160,
+      "highlight": false
+    },
+    {
+      "id": "cap-8",
+      "text": "is",
+      "startFrame": 161,
+      "endFrame": 175,
+      "highlight": false
+    },
+    {
+      "id": "cap-9",
+      "text": "the",
+      "startFrame": 176,
+      "endFrame": 190,
+      "highlight": false
+    },
+    {
+      "id": "cap-10",
+      "text": "exact",
+      "startFrame": 191,
+      "endFrame": 215,
+      "highlight": true
+    },
+    {
+      "id": "cap-11",
+      "text": "blueprint.",
+      "startFrame": 216,
+      "endFrame": 250,
+      "highlight": false
+    }
+  ],
+  "audioTrack": {
+    "voiceoverText": "Stop making boring videos in 2026. Here is the exact blueprint.",
+    "musicVolume": 0.15,
+    "voiceVolume": 1.0,
+    "ducking": true,
+    "durationInFrames": 300
+  },
+  "cameraMotion": {
+    "type": "zoom-in",
+    "intensity": "moderate",
+    "startFrame": 0,
+    "durationInFrames": 300,
+    "scale": 1.15
+  },
+  "transition": {
+    "type": "fade",
+    "durationInFrames": 15,
+    "easing": "ease-out"
+  },
+  "brand": {
+    "primaryColor": "#00F0FF",
+    "secondaryColor": "#FFFFFF",
+    "accentColor": "#FF0055",
+    "fontFamily": "Inter, sans-serif",
+    "captionStyle": "karaoke"
+  }
+}
