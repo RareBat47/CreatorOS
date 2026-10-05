@@ -1,0 +1,112 @@
+import { SceneSpec } from "@creatoros/scene-schema";
+
+export const defaultSceneSpec: SceneSpec = {
+  sceneId: "scene-gpu-squeeze-001",
+  projectId: "proj-gpu-squeeze",
+  format: "short_vertical",
+  width: 1080,
+  height: 1920,
+  layout: "talking-head",
+  durationInFrames: 180, // 6 seconds at 30fps
+  fps: 30,
+  hook: {
+    text: "Your cloud compute invoice isn't high because of traffic. It's high because your engineers are lazy.",
+    category: "contrarian",
+    startFrame: 0,
+    durationInFrames: 90,
+    visualEmphasis: "High Contrast Kinetic Punch",
+  },
+  visualLayers: [
+    {
+      id: "layer-bg-ambient",
+      type: "background",
+      content: "Deep void ambient mesh with neon violet glow",
+      startFrame: 0,
+      durationInFrames: 180,
+      zIndex: 1,
+      style: {
+        background: "radial-gradient(circle at 50% 30%, #151921 0%, #030712 100%)",
+      },
+    },
+    {
+      id: "layer-video-main",
+      type: "talking_head",
+      src: "https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-41804-large.mp4",
+      startFrame: 0,
+      durationInFrames: 180,
+      zIndex: 2,
+      style: {
+        borderRadius: "24px",
+        border: "2px solid #685AFF",
+      },
+      animation: {
+        entrance: "scale-up",
+        emphasis: "subtle-float",
+      },
+    },
+    {
+      id: "layer-badge-hook",
+      type: "overlay",
+      content: "CONTRARIAN BREAKDOWN",
+      startFrame: 0,
+      durationInFrames: 90,
+      zIndex: 10,
+      style: {
+        color: "#06DCFB",
+        background: "rgba(6, 220, 251, 0.15)",
+        border: "1px solid #06DCFB",
+      },
+    },
+  ],
+  captions: {
+    style: "karaoke",
+    fontSize: 54,
+    color: "#FFFFFF",
+    highlightColor: "#685AFF",
+    position: "bottom",
+    words: [
+      { text: "Your", startFrame: 0, endFrame: 15, highlight: true },
+      { text: "cloud", startFrame: 15, endFrame: 30, highlight: false },
+      { text: "compute", startFrame: 30, endFrame: 50, highlight: true },
+      { text: "invoice", startFrame: 50, endFrame: 70, highlight: false },
+      { text: "is", startFrame: 70, endFrame: 85, highlight: false },
+      { text: "bleeding", startFrame: 85, endFrame: 105, highlight: true },
+      { text: "cash.", startFrame: 105, endFrame: 135, highlight: true },
+      { text: "Here's", startFrame: 135, endFrame: 150, highlight: false },
+      { text: "why.", startFrame: 150, endFrame: 180, highlight: true },
+    ],
+  },
+  audioTrack: {
+    voiceoverText: "Your cloud compute invoice isn't high because of traffic. It's high because your engineers are lazy with idle GPU clusters.",
+    voiceVolume: 0.95,
+    musicTrack: "Cyberpunk Undercurrent 120BPM",
+    musicVolume: 0.2,
+    ducking: true,
+    durationInFrames: 180,
+  },
+  cameraMotion: {
+    type: "zoom-in",
+    intensity: "moderate",
+    startFrame: 0,
+    durationInFrames: 180,
+    scale: 1.08,
+  },
+  transition: {
+    type: "cut",
+    durationInFrames: 0,
+  },
+  brand: {
+    primaryColor: "#685AFF",
+    secondaryColor: "#06DCFB",
+    accentColor: "#A855F7",
+    fontFamily: "Inter, sans-serif",
+    captionStyle: "karaoke",
+  },
+  metadata: {
+    title: "The GPU Squeeze: Why Startups Bleed Compute Cash",
+    caption: "Stop paying for idle clusters. 3 simple optimizations cut AWS/GCP bills in half.",
+    hashtags: ["#AIEngineering", "#DevOps", "#CloudComputing", "#Remotion", "#CreatorOS"],
+    cta: "Follow for weekly production architecture breakdowns",
+    contentPillar: "AI Infra Reality Checks",
+  },
+};

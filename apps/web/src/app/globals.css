@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* CreatorOS Core Surface System - Dark Mode Primary (OLED / Dark Slate) */
+    --background: 224 71% 4%;            /* #030712 - Canvas Deep Void */
+    --surface-base: 220 26% 8%;          /* #0F1319 - Root Application Shell */
+    --surface-panel: 222 22% 11%;        /* #151921 - Default Docked Panel */
+    --surface-elevated: 220 20% 14%;     /* #1C222C - Flyouts, Menus, Modals */
+    --surface-hover: 223 18% 18%;        /* #262D3B - Interactive Surface State */
+    --surface-active: 224 20% 22%;       /* #2D3545 - Active Segment / Drag State */
+    
+    /* Foreground / Typography Systems */
+    --foreground: 210 20% 98%;          /* #F8FAFC - Primary High-Contrast Text */
+    --foreground-muted: 215 16% 65%;    /* #94A3B8 - Secondary Metadata, Labels */
+    --foreground-subtle: 215 12% 44%;   /* #64748B - Disabled, Placeholders */
+    
+    /* Structural Framing */
+    --border-subtle: 220 18% 15%;       /* #1E242F - Panel Separation */
+    --border-strong: 220 16% 24%;       /* #333C4D - Focus Outlines, Seams */
+    --border-interactive: 250 84% 67%;  /* Indigo highlight ring */
+
+    /* CreatorOS Neon Accelerators (Accents) */
+    --neon-indigo: 246 80% 65%;         /* #685AFF - Primary Action, Keyframing */
+    --neon-violet: 271 91% 65%;         /* #A855F7 - Generative Pipeline */
+    --neon-cyan: 189 94% 53%;           /* #06DCFB - Audio Tracks, Vectors */
+    --neon-lime: 135 94% 65%;           /* #4ADE80 - Safe Status, Timeline Run */
+    --neon-amber: 38 92% 50%;           /* #F59E0B - Warning, Cache Miss */
+    --neon-rose: 343 88% 60%;           /* #F43F5E - Recording State */
+
+    /* Timeline Specific Colorways */
+    --timeline-track-video: 246 80% 65%;
+    --timeline-track-audio: 189 94% 53%;
+    --timeline-track-fx: 271 91% 65%;
+    --timeline-playhead: 343 88% 60%;
+    --timeline-inout: 135 94% 65%;
+    --timeline-ruler: 215 12% 44%;
+
+    /* Standardized Card & Semantic Mappings */
+    --card: var(--surface-panel);
+    --card-foreground: var(--foreground);
+    --primary: var(--neon-indigo);
+    --primary-foreground: 210 20% 98%;
+    --secondary: var(--surface-hover);
+    --secondary-foreground: var(--foreground);
+    --muted: var(--surface-elevated);
+    --muted-foreground: var(--foreground-muted);
+    --accent: var(--surface-hover);
+    --accent-foreground: var(--foreground);
+    --destructive: var(--neon-rose);
+    --destructive-foreground: 210 20% 98%;
+  }
+
+  * {
+    border-color: hsl(var(--border-subtle));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    text-rendering: optimizeLegibility;
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--surface-base));
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--surface-hover));
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--border-strong));
+}
