@@ -114,18 +114,18 @@ describe("ModelRouter", () => {
 
   it("maps primary models according to Section 5 & 6 recommendations", () => {
     const router = new ModelRouter();
-    expect(router.getModelForTask("strategy")).toBe("qwen3.8-max");
-    expect(router.getModelForTask("brainstorm")).toBe("qwen3.7-flash");
-    expect(router.getModelForTask("scriptwriting")).toBe("qwen3.7-plus");
-    expect(router.getModelForTask("multimodal")).toBe("qwen3-vl-plus");
-    expect(router.getModelForTask("critique")).toBe("qwen3.6-max-preview");
-    expect(router.getModelForTask("validation")).toBe("qwen3.6-27b");
+    expect(router.getModelForTask("strategy")).toBe("qwen/qwen3.8-max:free");
+    expect(router.getModelForTask("brainstorm")).toBe("qwen/qwen3.7-flash:free");
+    expect(router.getModelForTask("scriptwriting")).toBe("qwen/qwen3.7-plus:free");
+    expect(router.getModelForTask("multimodal")).toBe("qwen/qwen3-vl-plus:free");
+    expect(router.getModelForTask("critique")).toBe("qwen/qwen3.6-max-preview:free");
+    expect(router.getModelForTask("validation")).toBe("qwen/qwen3.6-27b:free");
   });
 
   it("allows custom overrides for task models and temperatures", () => {
     const router = new ModelRouter({
       modelOverrides: {
-        scriptwriting: "qwen3.6-plus",
+        scriptwriting: "qwen/qwen3.6-plus:free",
       },
       customRouting: {
         brainstorm: {
@@ -134,7 +134,7 @@ describe("ModelRouter", () => {
       },
     });
 
-    expect(router.getModelForTask("scriptwriting")).toBe("qwen3.6-plus");
+    expect(router.getModelForTask("scriptwriting")).toBe("qwen/qwen3.6-plus:free");
     expect(router.getRoutingConfig("brainstorm")?.defaultTemperature).toBe(0.95);
   });
 
@@ -144,8 +144,8 @@ describe("ModelRouter", () => {
       callCount++;
       const body = JSON.parse(options.body as string) as ChatCompletionRequest;
 
-      // Fail on primary model qwen3.7-flash
-      if (body.model === "qwen3.7-flash") {
+      // Fail on primary model qwen/qwen3.7-flash:free
+      if (body.model === "qwen/qwen3.7-flash:free") {
         return {
           ok: false,
           status: 500,
@@ -154,7 +154,7 @@ describe("ModelRouter", () => {
         };
       }
 
-      // Succeed on fallback model qwen3.5-flash
+      // Succeed on fallback model qwen/qwen3.5-flash:free
       return {
         ok: true,
         json: async (): Promise<ChatCompletionResponse> => ({
@@ -181,7 +181,7 @@ describe("ModelRouter", () => {
     );
 
     expect(result.recovered).toBe(true);
-    expect(result.model).toBe("qwen3.5-flash");
+    expect(result.model).toBe("qwen/qwen3.5-flash:free");
     expect(callCount).toBe(2);
   });
 });
@@ -366,12 +366,12 @@ describe("ModelCouncil Architecture", () => {
     const mockFetch = vi.fn().mockImplementation(async (_url, options) => {
       const body = JSON.parse(options.body as string) as ChatCompletionRequest;
 
-      if (body.model === "qwen3.7-flash") {
+      if (body.model === "qwen/qwen3.7-flash:free") {
         return {
           ok: true,
           json: async (): Promise<ChatCompletionResponse> => ({
             id: "brainstorm-res",
-            model: "qwen3.7-flash",
+            model: "qwen/qwen3.7-flash:free",
             choices: [
               {
                 message: {
@@ -396,7 +396,7 @@ describe("ModelCouncil Architecture", () => {
         };
       }
 
-      if (body.model === "qwen3.7-plus") {
+      if (body.model === "qwen/qwen3.7-plus:free") {
         // If it's scriptwriting or scene generation
         const userContent = body.messages.find((m) => m.role === "user")?.content as string;
         if (userContent.includes("Draft an elite short-form video narrative")) {
@@ -404,7 +404,7 @@ describe("ModelCouncil Architecture", () => {
             ok: true,
             json: async (): Promise<ChatCompletionResponse> => ({
               id: "script-res",
-              model: "qwen3.7-plus",
+              model: "qwen/qwen3.7-plus:free",
               choices: [
                 {
                   message: {
@@ -447,7 +447,7 @@ describe("ModelCouncil Architecture", () => {
           ok: true,
           json: async (): Promise<ChatCompletionResponse> => ({
             id: "scene-res",
-            model: "qwen3.7-plus",
+            model: "qwen/qwen3.7-plus:free",
             choices: [
               {
                 message: {
@@ -496,12 +496,12 @@ describe("ModelCouncil Architecture", () => {
         };
       }
 
-      if (body.model === "qwen3.6-max-preview") {
+      if (body.model === "qwen/qwen3.6-max-preview:free") {
         return {
           ok: true,
           json: async (): Promise<ChatCompletionResponse> => ({
             id: "critique-res",
-            model: "qwen3.6-max-preview",
+            model: "qwen/qwen3.6-max-preview:free",
             choices: [
               {
                 message: {
@@ -566,7 +566,7 @@ describe("ModelCouncil Architecture", () => {
 
     // Check Metadata
     expect(result.metadata.environment).toBe("dev");
-    expect(result.metadata.modelsUsed.brainstorm).toBe("qwen3.7-flash");
-    expect(result.metadata.modelsUsed.critique).toBe("qwen3.6-max-preview");
+    expect(result.metadata.modelsUsed.brainstorm).toBe("qwen/qwen3.7-flash:free");
+    expect(result.metadata.modelsUsed.critique).toBe("qwen/qwen3.6-max-preview:free");
   });
 });

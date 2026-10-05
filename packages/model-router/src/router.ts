@@ -11,43 +11,72 @@ import type {
 
 export const DEFAULT_ROUTING_TABLE: TaskRoutingTable = {
   strategy: {
-    primaryModel: "qwen3.8-max",
-    fallbackModels: ["qwen3.7-max", "qwen3-max", "qwen3.6-max-preview", "qwen3.5-397b-a17b"],
+    primaryModel: "qwen/qwen3.8-max:free",
+    fallbackModels: [
+      "qwen/qwen3.7-max:free",
+      "mistralai/mistral-large-2512",
+      "qwen/qwen3.6-max-preview:free",
+      "qwen/qwen3-max:free",
+    ],
     defaultTemperature: 0.7,
     systemPromptRole:
       "You are the chief content strategist for a professional creator. Analyze the creator profile, audience, past content, and business goals. Develop a specific content strategy that is differentiated, measurable, and realistic for the creator's production capacity. Avoid generic advice.",
   },
   brainstorm: {
-    primaryModel: "qwen3.7-flash",
-    fallbackModels: ["qwen3.5-flash", "qwen3.8-omni-flash", "qwen3-omni-flash", "qwen3.5-omni-flash"],
+    primaryModel: "qwen/qwen3.7-flash:free",
+    fallbackModels: [
+      "qwen/qwen3.5-flash:free",
+      "qwen/qwen3.8-omni-flash:free",
+      "mistralai/mistral-small-2603",
+      "qwen/qwen3-omni-flash:free",
+    ],
     defaultTemperature: 0.85,
     systemPromptRole:
       "You are an elite short-form content brainstorming engine specialized in high-converting hooks, audience psychology, angles, and viral mechanics. Generate creative, varied, and arresting options.",
   },
   scriptwriting: {
-    primaryModel: "qwen3.7-plus",
-    fallbackModels: ["qwen3.6-plus", "qwen3.5-plus", "qwen-plus-0728"],
+    primaryModel: "qwen/qwen3.7-plus:free",
+    fallbackModels: [
+      "mistralai/mistral-medium-3.5",
+      "qwen/qwen3.6-plus:free",
+      "qwen/qwen3.5-plus:free",
+      "mistralai/mistral-large-2512",
+    ],
     defaultTemperature: 0.7,
     systemPromptRole:
       "You are an expert short-form video scriptwriter and editor. You craft punchy, natural, conversational narratives with airtight pacing, emotional resonance, and high-retention transitions.",
   },
   multimodal: {
-    primaryModel: "qwen3-vl-plus",
-    fallbackModels: ["qwen3.5-omni-plus", "qwen3.8-omni-flash", "qwen3-omni-flash"],
+    primaryModel: "qwen/qwen3-vl-plus:free",
+    fallbackModels: [
+      "qwen/qwen3.5-omni-plus:free",
+      "qwen/qwen3.8-omni-flash:free",
+      "qwen/qwen3.5-omni-flash:free",
+    ],
     defaultTemperature: 0.3,
     systemPromptRole:
       "You are a multimodal video and visual aesthetic analyst reviewing visual composition, framing, pacing, captions, and creator style.",
   },
   critique: {
-    primaryModel: "qwen3.6-max-preview",
-    fallbackModels: ["qwen3.8-max", "qwen3.7-plus", "qwen3-max"],
+    primaryModel: "qwen/qwen3.6-max-preview:free",
+    fallbackModels: [
+      "qwen/qwen3.8-max:free",
+      "mistralai/mistral-large-2512",
+      "qwen/qwen3.7-plus:free",
+      "qwen/qwen3-max:free",
+    ],
     defaultTemperature: 0.2,
     systemPromptRole:
       "You are a rigorous content quality reviewer and brand integrity critic. Evaluate retention curve, clarity, originality, voice consistency, forbidden phrase compliance, and brand fit.",
   },
   validation: {
-    primaryModel: "qwen3.6-27b",
-    fallbackModels: ["qwen3.6-35b-a3b", "qwen3.5-flash", "qwen3.7-flash"],
+    primaryModel: "qwen/qwen3.6-27b:free",
+    fallbackModels: [
+      "mistralai/codestral-2508",
+      "qwen/qwen3.6-35b-a3b:free",
+      "qwen/qwen3.5-flash:free",
+      "qwen/qwen3.7-flash:free",
+    ],
     defaultTemperature: 0.1,
     systemPromptRole:
       "You are an exacting structured data validator and scene timing engineer. Ensure schema completeness, frame budgets, CTA presence, and strict JSON compliance.",

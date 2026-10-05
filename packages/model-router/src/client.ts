@@ -8,7 +8,7 @@ import type {
 } from "./types.js";
 
 export const DEV_ANTIGRAVITY_DEFAULT_URL = "http://127.0.0.1:8999/v1";
-export const PROD_DASHSCOPE_DEFAULT_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1";
+export const PROD_DASHSCOPE_DEFAULT_URL = "https://api.xkiro.com/v1";
 
 export class ModelClient {
   private readonly environment: TargetEnvironment;
@@ -43,6 +43,7 @@ export class ModelClient {
       this.apiKey = process.env.ANTIGRAVITY_API_KEY || "antigravity-local";
     } else {
       this.apiKey =
+        process.env.XKIRO_API_KEY ||
         process.env.DASHSCOPE_API_KEY ||
         process.env.OPENAI_API_KEY ||
         process.env.ANTHROPIC_API_KEY ||
